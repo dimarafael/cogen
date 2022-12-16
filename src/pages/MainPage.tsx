@@ -15,8 +15,11 @@ export function MainPage(){
                     onClick={() => dispatch(setPage(1))}
                 >Settings page</button>
             </div>
-            <div className='flex  border border-blue-900 h-1/5'>
-                <div className=' border border-gray-900'>
+            <div className='flex my-0 mx-[-3%] border border-blue-900 h-1/5'>
+                <div className='flex-auto py-0 px-[3%] border border-gray-900'>
+
+                </div>
+                <div className='flex-auto py-0 px-[3%] border border-gray-900'>
 
                 </div>
             </div>
