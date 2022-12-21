@@ -1,7 +1,7 @@
 import * as React from "react"
 import { SVGProps } from "react"
 
-const Drum = (props: SVGProps<SVGSVGElement>) => (
+const DrumSvg = (props: SVGProps<SVGSVGElement>) => (
     <svg
         width= '1em'
         height= '1em'
@@ -35,4 +35,4 @@ const Drum = (props: SVGProps<SVGSVGElement>) => (
     </svg>
 )
 
-export default Drum
+export default DrumSvg
