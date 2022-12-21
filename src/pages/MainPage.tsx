@@ -1,4 +1,4 @@
-import {useAppDispatch, useAppSelector} from "../app/hooks";
+// import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {BsFillPlayFill} from 'react-icons/bs'
 import {CiCoffeeBean} from 'react-icons/ci'
 import {RxGear} from 'react-icons/rx'
@@ -9,12 +9,13 @@ import FireSvg from "../components/svg/FireSvg";
 import MixerSvg from "../components/svg/MixerSvg";
 import SnowflakeSvg from "../components/svg/SnowflakeSvg";
 import FanSvg from "../components/svg/FanSvg";
+import {Chart} from "../components/Chart";
+// import {setPage} from "../features/hmi/hmiSlice";
 
-import {setPage} from "../features/hmi/hmiSlice";
 
 export function MainPage(){
-    const pageNumber = useAppSelector(state => state.hmi.page)
-    const dispatch = useAppDispatch()
+    // const pageNumber = useAppSelector(state => state.hmi.page)
+    // const dispatch = useAppDispatch()
 
     return(
         <div className='flex w-full h-screen bg-black'>
@@ -65,44 +66,44 @@ export function MainPage(){
                 <div className='flex h-1/6 bg-neutral-700 rounded-2xl mb-[0.5%]'>
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><MdAir/></div>
-                        <div className='flex flex-col flex-auto items-start'>
-                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000.0°C</div>
+                        <div className='flex flex-col flex-auto items-start text-blue-600'>
+                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000.0 °C</div>
                             <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>AIR</div>
                         </div>
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><GiCoffeeBeans/></div>
-                        <div className='flex flex-col flex-auto items-start'>
-                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000.0°C</div>
+                        <div className='flex flex-col flex-auto items-start text-rose-600'>
+                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000.0 °C</div>
                             <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>BEANS</div>
                         </div>
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[3vw]'>RoR</div>
-                        <div className='flex items-center text-[2vw] ml-[0.5vw]'>
-                            00.0°C
+                        <div className='flex items-center text-[2vw] ml-[0.5vw] text-yellow-600'>
+                            00.0 °C
                         </div>
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><FireSvg/></div>
-                        <div className='flex items-center text-[2vw]'>
+                        <div className='flex items-center text-[2vw] text-green-600'>
                             00
                         </div>
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><DrumSvg/></div>
-                        <div className='flex items-center text-[2vw]'>
+                        <div className='flex items-center text-[2vw] text-orange-600'>
                             00 rpm
                         </div>
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw] text-neutral-300'><FanSvg/></div>
-                        <div className='flex flex-col flex-auto items-start'>
+                        <div className='flex flex-col flex-auto items-start text-purple-600'>
                             <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000 Pa</div>
                             <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>000 Pa</div>
                         </div>
@@ -110,14 +111,8 @@ export function MainPage(){
 
                 </div>
                 <div className='flex-auto bg-neutral-700 rounded-2xl'>
-
+                    <Chart/>
                 </div>
-                {/*<h1>Main page</h1>*/}
-                {/*<p>Page number: {pageNumber}</p>*/}
-                {/*<button*/}
-                {/*    className='bg-blue-500'*/}
-                {/*    onClick={() => dispatch(setPage(1))}*/}
-                {/*>Settings page</button>*/}
             </div>
 
         </div>
