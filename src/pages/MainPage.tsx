@@ -10,6 +10,9 @@ import MixerSvg from "../components/svg/MixerSvg";
 import SnowflakeSvg from "../components/svg/SnowflakeSvg";
 import FanSvg from "../components/svg/FanSvg";
 import {Chart} from "../components/Chart";
+import CogenLogoSvg from "../components/svg/CogenLogoSvg";
+import {PopUpFire} from "../components/PopUpFire";
+import {useState} from "react";
 // import {setPage} from "../features/hmi/hmiSlice";
 
 
@@ -17,13 +20,15 @@ export function MainPage(){
     // const pageNumber = useAppSelector(state => state.hmi.page)
     // const dispatch = useAppDispatch()
 
+    const [firePopUp, setFirePopUp] = useState(false)
+
     return(
         <div className='flex w-full h-screen bg-black'>
             <div className='flex flex-col w-1/12 rounded-l-3xl bg-neutral-700'>
-                <div className='text-white text-[2.2vw] py-[2vh]'>
-                    SIEMENS
+                <div className='text-white text-[2.4vw] pt-[4vh] ml-[0.5vw]'>
+                    <CogenLogoSvg/>
                 </div>
-                <div className='text-neutral-300 text-[3vw]'>
+                <div className='text-neutral-300 text-[3vw] pt-[1vh]'>
                     00:00
                 </div>
                 <div className='flex items-center pb-[2vh]'>
@@ -87,22 +92,26 @@ export function MainPage(){
                         </div>
                     </div>
 
-                    <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
+                    <div className='flex text-neutral-300 px-[0.1vw] w-1/6 active:bg-neutral-600'
+                        onClick={() => setFirePopUp(true)}
+                    >
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><FireSvg/></div>
                         <div className='flex items-center text-[2vw] text-green-600'>
                             00
                         </div>
+
                     </div>
+                    {firePopUp && <PopUpFire onClick={() => setFirePopUp(false)}/>}
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><DrumSvg/></div>
-                        <div className='flex items-center text-[2vw] text-orange-600'>
+                        <div className='flex items-center text-[2vw] text-orange-600 pl-[0.5vw]'>
                             00 rpm
                         </div>
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
-                        <div className='flex items-center mx-[0.2vw] text-[4vw] text-neutral-300'><FanSvg/></div>
+                        <div className='flex items-center mx-[0.2vw] text-[4vw] text-neutral-300 mr-[0.5vw]'><FanSvg/></div>
                         <div className='flex flex-col flex-auto items-start text-purple-600'>
                             <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000 Pa</div>
                             <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>000 Pa</div>
@@ -110,7 +119,7 @@ export function MainPage(){
                     </div>
 
                 </div>
-                <div className='flex-auto bg-neutral-700 rounded-2xl'>
+                <div className='flex-auto z-0 bg-neutral-700 rounded-2xl'>
                     <Chart/>
                 </div>
             </div>
