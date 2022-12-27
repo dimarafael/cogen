@@ -1,0 +1,84 @@
+{
+  "t_prod": 123.4,
+  "t_smoke": 234.5,
+  "sp_max_t": 111.1,
+  "dp": 123,
+  "sp_dp_min": 10,
+  "drum": false,
+  "mixer": false,
+  "drum_speed": 45,
+  "sp_dp": 100,
+  "cooler": false,
+  "sp_cooler": 75,
+  "fire": false,
+  "t_box": 35,
+  "plc_work_time": 123456,
+  "ror": 2.5,
+  "gaz_start": 40,
+  "gaz1": 35,
+  "gaz2": 40,
+  "gaz3": 45,
+  "gaz4": 50,
+  "gaz5": 55,
+  "gaz6": 60,
+  "gaz7": 65,
+  "gaz8": 70,
+  "gaz9": 75,
+  "gaz10": 80,
+  "gaz_preset": 3,
+  "pid_kp": 2.5,
+  "pid_ti": 10.5,
+  "pid_out": 70,
+  "alarms": [
+    {
+      "id": 1,
+      "title": "Alarm 1",
+      "state": false
+    },
+    {
+      "id": 2,
+      "title": "Alarm 2",
+      "state": false
+    },
+    {
+      "id": 3,
+      "title": "Alarm 3",
+      "state": false
+    },
+    {
+      "id": 4,
+      "title": "Alarm 4",
+      "state": false
+    },
+    {
+      "id": 5,
+      "title": "Alarm 5",
+      "state": false
+    },
+    {
+      "id": 6,
+      "title": "Alarm 6",
+      "state": false
+    },
+    {
+      "id": 7,
+      "title": "Alarm 7",
+      "state": false
+    },
+    {
+      "id": 8,
+      "title": "Alarm 8",
+      "state": false
+    },
+    {
+      "id": 9,
+      "title": "Alarm 9",
+      "state": false
+    },
+    {
+      "id": 10,
+      "title": "Alarm 10",
+      "state": false
+    }
+  ]
+}

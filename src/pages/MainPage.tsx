@@ -11,17 +11,37 @@ import SnowflakeSvg from "../components/svg/SnowflakeSvg";
 import FanSvg from "../components/svg/FanSvg";
 import {Chart} from "../components/Chart";
 import CogenLogoSvg from "../components/svg/CogenLogoSvg";
-import {PopUpFire} from "../components/PopUpFire";
+import {PopUpControl} from "../components/PopUpControl";
 import {useState} from "react";
 // import {setPage} from "../features/hmi/hmiSlice";
+import {useGetCogenDataQuery, useSetCogenValueMutation} from "../services/cogenApi";
+import {plcData} from "../types";
 
 
 export function MainPage(){
     // const pageNumber = useAppSelector(state => state.hmi.page)
     // const dispatch = useAppDispatch()
+    const{data, isError} =useGetCogenDataQuery(1, {pollingInterval: 1000})
+    const [setCogenValue] =useSetCogenValueMutation()
+    const [controlPopUp, setControlPopUp] = useState(false)
 
-    const [firePopUp, setFirePopUp] = useState(false)
+    const getRealStr = function (data: plcData, tag: keyof plcData) {
+        if (data !== undefined) {
+            const value = data[tag]
+            if (typeof value == "number"){
+                return( value.toFixed(1).toString() )
+            } else return ('0.0')
+        } else return('0.0')
+    }
 
+    const getIntStr = function (data: plcData, tag: keyof plcData) {
+        if (data !== undefined) {
+            const value = data[tag]
+            if (typeof value == "number"){
+                return( value.toFixed(0).toString() )
+            } else return ('0')
+        } else return('0')
+    }
     return(
         <div className='flex w-full h-screen bg-black'>
             <div className='flex flex-col w-1/12 rounded-l-3xl bg-neutral-700'>
@@ -72,7 +92,7 @@ export function MainPage(){
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><MdAir/></div>
                         <div className='flex flex-col flex-auto items-start text-blue-600'>
-                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000.0 °C</div>
+                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>{getRealStr(data, 't_smoke')} °C</div>
                             <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>AIR</div>
                         </div>
                     </div>
@@ -80,7 +100,7 @@ export function MainPage(){
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><GiCoffeeBeans/></div>
                         <div className='flex flex-col flex-auto items-start text-rose-600'>
-                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000.0 °C</div>
+                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>{getRealStr(data, 't_prod')} °C</div>
                             <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>BEANS</div>
                         </div>
                     </div>
@@ -88,33 +108,40 @@ export function MainPage(){
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[3vw]'>RoR</div>
                         <div className='flex items-center text-[2vw] ml-[0.5vw] text-yellow-600'>
-                            00.0 °C
+                            {getRealStr(data, 'ror')} °C
                         </div>
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6 active:bg-neutral-600'
-                        onClick={() => setFirePopUp(true)}
+                        onClick={() => setControlPopUp(true)}
+                        //  onClick={() => setCogenValue({
+                        //      tag: 'gaz_preset',
+                        //      value: 4
+                        //  })}
                     >
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><FireSvg/></div>
                         <div className='flex items-center text-[2vw] text-green-600'>
-                            00
+                            {getIntStr(data, 'gaz_preset')}
                         </div>
 
                     </div>
-                    {firePopUp && <PopUpFire onClick={() => setFirePopUp(false)}/>}
+                    {controlPopUp && <PopUpControl onClose={() => setControlPopUp(false)}
+                                                value={parseInt(getIntStr(data, 'gaz_preset'))}
+                                                onChange={setCogenValue}
+                                                   tag={'gaz_preset'}
+                    />}
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><DrumSvg/></div>
                         <div className='flex items-center text-[2vw] text-orange-600 pl-[0.5vw]'>
-                            00 rpm
+                            {getIntStr(data, 'drum_speed')} rpm
                         </div>
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
-                        <div className='flex items-center mx-[0.2vw] text-[4vw] text-neutral-300 mr-[0.5vw]'><FanSvg/></div>
-                        <div className='flex flex-col flex-auto items-start text-purple-600'>
-                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>000 Pa</div>
-                            <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>000 Pa</div>
+                        <div className='flex items-center mx-[0.2vw] text-[4vw]'><FanSvg/></div>
+                        <div className='flex items-center text-[2vw] text-purple-600 pl-[0.5vw]'>
+                            {getIntStr(data, 'smoke_fan_speed')} %
                         </div>
                     </div>
 
