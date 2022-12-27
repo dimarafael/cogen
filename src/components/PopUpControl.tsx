@@ -10,16 +10,21 @@ interface PopUpFireProps{
     onChange: ({tag, value}: OnChangeProps) => void
     value: number
     tag: string
+    posLeft: string
 }
 
-export function PopUpControl({onClose, onChange, value, tag}: PopUpFireProps){
+export function PopUpControl({onClose, onChange, value, tag, posLeft}: PopUpFireProps){
     return(
         <>
         <div className='absolute top-0 left-0 z-10 h-full w-full bg-gray-500 opacity-50'
              onClick={onClose}
         ></div>
-        <div className='absolute z-10 top-[16vh] left-[30vw] w-2/6 h-3/6 text-neutral-300
-                rounded-2xl bg-neutral-300 shadow-2xl'>
+        <div className='absolute z-10 top-[16vh] w-2/6 h-3/6 text-neutral-300
+                rounded-2xl bg-neutral-300 shadow-2xl'
+            style={{
+                left: posLeft
+            }}
+        >
             <div className='flex flex-col h-full w-full'>
                 <div className='flex flex-auto'>
                     <div className='flex flex-auto items-center justify-center text-neutral-900 text-[20vh]'>

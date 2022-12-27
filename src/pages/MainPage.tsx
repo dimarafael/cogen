@@ -21,7 +21,7 @@ import {plcData} from "../types";
 export function MainPage(){
     // const pageNumber = useAppSelector(state => state.hmi.page)
     // const dispatch = useAppDispatch()
-    const{data, isError} =useGetCogenDataQuery(1, {pollingInterval: 1000})
+    const{data} =useGetCogenDataQuery(1, {pollingInterval: 1000})
     const [setCogenValue] =useSetCogenValueMutation()
     const [controlPopUp, setControlPopUp] = useState(false)
 
@@ -114,10 +114,6 @@ export function MainPage(){
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6 active:bg-neutral-600'
                         onClick={() => setControlPopUp(true)}
-                        //  onClick={() => setCogenValue({
-                        //      tag: 'gaz_preset',
-                        //      value: 4
-                        //  })}
                     >
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><FireSvg/></div>
                         <div className='flex items-center text-[2vw] text-green-600'>
@@ -128,7 +124,8 @@ export function MainPage(){
                     {controlPopUp && <PopUpControl onClose={() => setControlPopUp(false)}
                                                 value={parseInt(getIntStr(data, 'gaz_preset'))}
                                                 onChange={setCogenValue}
-                                                   tag={'gaz_preset'}
+                                                   tag='gaz_preset'
+                                                   posLeft='30vw'
                     />}
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
