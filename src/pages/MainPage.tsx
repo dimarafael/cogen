@@ -14,18 +14,19 @@ import CogenLogoSvg from "../components/svg/CogenLogoSvg";
 import {PopUpControl} from "../components/PopUpControl";
 import {useState} from "react";
 // import {setPage} from "../features/hmi/hmiSlice";
-import {useGetCogenDataQuery, useSetCogenValueMutation} from "../services/cogenApi";
+import {useGetCogenDataQuery, useSetCogenValueMutation, useSetCogenBoolMutation} from "../services/cogenApi";
 import {plcData} from "../types";
 
 
 export function MainPage(){
     // const pageNumber = useAppSelector(state => state.hmi.page)
     // const dispatch = useAppDispatch()
-    const{data} =useGetCogenDataQuery(1, {pollingInterval: 1000})
-    const [setCogenValue] =useSetCogenValueMutation()
+    const{data} = useGetCogenDataQuery(1, {pollingInterval: 1000})
+    const [setCogenValue] = useSetCogenValueMutation()
+    const [setCogenBool] = useSetCogenBoolMutation()
     const [controlPopUp, setControlPopUp] = useState(false)
 
-    const getRealStr = function (data: plcData, tag: keyof plcData) {
+    const getRealStr = function (data: plcData, tag: keyof plcData): string {
         if (data !== undefined) {
             const value = data[tag]
             if (typeof value == "number"){
@@ -34,7 +35,7 @@ export function MainPage(){
         } else return('0.0')
     }
 
-    const getIntStr = function (data: plcData, tag: keyof plcData) {
+    const getIntStr = function (data: plcData, tag: keyof plcData): string {
         if (data !== undefined) {
             const value = data[tag]
             if (typeof value == "number"){
@@ -42,6 +43,16 @@ export function MainPage(){
             } else return ('0')
         } else return('0')
     }
+
+    const getBool = function (data: plcData, tag: keyof plcData): boolean{
+        if (data !== undefined) {
+            const value = data[tag]
+            if (typeof value == "boolean"){
+                return value
+            } else return false
+        } else return false
+    }
+
     return(
         <div className='flex w-full h-screen bg-black'>
             <div className='flex flex-col w-1/12 rounded-l-3xl bg-neutral-700'>
@@ -67,11 +78,24 @@ export function MainPage(){
                     <div className='text-[6.5vh] mb-[-0.5vh]'><CiCoffeeBean/></div>
                     <div className='text-[2vh]'>CRACK</div>
                 </div>
-                <div className='flex flex-col items-center text-neutral-300 h-[10vh] justify-center box-border border-y border-neutral-400 active:bg-neutral-600'>
+                {/*<div className='flex flex-col items-center text-neutral-300 h-[10vh] justify-center box-border border-y border-neutral-400 active:bg-neutral-600'*/}
+                <div className={`flex flex-col items-center h-[10vh] justify-center box-border border-y
+                                border-neutral-400 active:bg-neutral-600 
+                                ${getBool(data,'drum') ? 'text-green-500': 'text-neutral-300'}`}
+                     onClick={() => setCogenBool({
+                        tag: 'drum',
+                        value: !getBool(data,'drum')
+                    })}
+                >
                     <div className='text-[5.5vh] mt-[1vh]'><DrumSvg/></div>
                     <div className='text-[2vh]'>DRUM</div>
                 </div>
-                <div className='flex flex-col items-center text-neutral-300 h-[10vh] justify-center box-border border-y border-neutral-400 active:bg-neutral-600'>
+                <div className='flex flex-col items-center text-neutral-300 h-[10vh] justify-center box-border border-y border-neutral-400 active:bg-neutral-600'
+                     onClick={() => setCogenBool({
+                         tag: 'fire',
+                         value: !getBool(data,'fire')
+                     })}
+                >
                     <div className='text-[5.5vh] mt-[1vh]'><FireSvg/></div>
                     <div className='text-[2vh]'>FIRE</div>
                 </div>
@@ -122,8 +146,8 @@ export function MainPage(){
 
                     </div>
                     {controlPopUp && <PopUpControl onClose={() => setControlPopUp(false)}
-                                                value={parseInt(getIntStr(data, 'gaz_preset'))}
-                                                onChange={setCogenValue}
+                                                   value={parseInt(getIntStr(data, 'gaz_preset'))}
+                                                   onChange={setCogenValue}
                                                    tag='gaz_preset'
                                                    posLeft='30vw'
                     />}
