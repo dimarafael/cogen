@@ -56,7 +56,7 @@ export function MainPage(){
     return(
         <div className='flex w-full h-screen bg-black'>
             <div className='flex flex-col w-1/12 rounded-l-3xl bg-neutral-700'>
-                <div className='text-white text-[2.4vw] pt-[4vh] ml-[0.5vw]'>
+                <div className='text-neutral-300 text-[2.4vw] pt-[4vh] ml-[0.5vw]'>
                     <CogenLogoSvg/>
                 </div>
                 <div className='text-neutral-300 text-[3vw] pt-[1vh]'>
@@ -161,10 +161,12 @@ export function MainPage(){
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><FanSvg/></div>
-                        <div className='flex items-center text-[2vw] text-purple-600 pl-[0.5vw]'>
-                            {getIntStr(data, 'smoke_fan_speed')} %
+                        <div className='flex flex-col flex-auto items-start text-purple-600'>
+                            <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>{getIntStr(data, 'dp')} Pa</div>
+                            <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>{getIntStr(data, 'smoke_fan_speed')} %</div>
                         </div>
                     </div>
+
 
                 </div>
                 <div className='flex-auto z-0 bg-neutral-700 rounded-2xl'>
