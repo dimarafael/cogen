@@ -24,7 +24,9 @@ export function MainPage(){
     const{data} = useGetCogenDataQuery(1, {pollingInterval: 1000})
     const [setCogenValue] = useSetCogenValueMutation()
     const [setCogenBool] = useSetCogenBoolMutation()
-    const [controlPopUp, setControlPopUp] = useState(false)
+    const [gazControlPopUp, setGazControlPopUp] = useState(false)
+    const [drumControlPopUp, setDrumControlPopUp] = useState(false)
+    const [fanControlPopUp, setFanControlPopUp] = useState(false)
 
     const getRealStr = function (data: plcData, tag: keyof plcData): string {
         if (data !== undefined) {
@@ -137,7 +139,7 @@ export function MainPage(){
                     </div>
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6 active:bg-neutral-600'
-                        onClick={() => setControlPopUp(true)}
+                        onClick={() => setGazControlPopUp(true)}
                     >
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><FireSvg/></div>
                         <div className='flex items-center text-[2vw] text-green-600'>
@@ -145,28 +147,47 @@ export function MainPage(){
                         </div>
 
                     </div>
-                    {controlPopUp && <PopUpControl onClose={() => setControlPopUp(false)}
+                    {gazControlPopUp && <PopUpControl onClose={() => setGazControlPopUp(false)}
                                                    value={parseInt(getIntStr(data, 'gaz_preset'))}
                                                    onChange={setCogenValue}
                                                    tag='gaz_preset'
                                                    posLeft='30vw'
+                                                   max={10}
+                                                   min={1}
                     />}
 
-                    <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
+                    <div className='flex text-neutral-300 px-[0.1vw] w-1/6'
+                         onClick={()=>setDrumControlPopUp(true)}
+                    >
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><DrumSvg/></div>
                         <div className='flex items-center text-[2vw] text-orange-600 pl-[0.5vw]'>
                             {getIntStr(data, 'drum_speed')} rpm
                         </div>
                     </div>
+                    {drumControlPopUp && <PopUpControl onClose={() => setDrumControlPopUp(false)}
+                                                      value={parseInt(getIntStr(data, 'drum_speed'))}
+                                                      onChange={setCogenValue}
+                                                      tag='drum_speed'
+                                                      posLeft='45vw'
+                    />}
 
-                    <div className='flex text-neutral-300 px-[0.1vw] w-1/6'>
+                    <div className='flex text-neutral-300 px-[0.1vw] w-1/6'
+                        onClick={()=>setFanControlPopUp(true)}
+                    >
                         <div className='flex items-center mx-[0.2vw] text-[4vw]'><FanSvg/></div>
                         <div className='flex flex-col flex-auto items-start text-purple-600'>
                             <div className='flex items-end mx-[0.2vw] text-[2vw] h-2/3 pb-[1vh]'>{getIntStr(data, 'dp')} Pa</div>
                             <div className='mx-[0.4vw] text-[2vh] h-1/3 mt-[-2vh]'>{getIntStr(data, 'smoke_fan_speed')} %</div>
                         </div>
                     </div>
-
+                    {fanControlPopUp && <PopUpControl onClose={() => setFanControlPopUp(false)}
+                                                      value={parseInt(getIntStr(data, 'smoke_fan_speed'))}
+                                                      onChange={setCogenValue}
+                                                      tag='smoke_fan_speed'
+                                                      posLeft='60vw'
+                                                      min={10}
+                                                      units='%'
+                    />}
 
                 </div>
                 <div className='flex-auto z-0 bg-neutral-700 rounded-2xl'>
