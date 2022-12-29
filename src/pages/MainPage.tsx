@@ -4,6 +4,7 @@ import {CiCoffeeBean} from 'react-icons/ci'
 import {RxGear} from 'react-icons/rx'
 import {GiCoffeeBeans} from 'react-icons/gi'
 import {MdAir} from 'react-icons/md'
+import {MdError} from 'react-icons/md'
 import DrumSvg from "../components/svg/DrumSvg";
 import FireSvg from "../components/svg/FireSvg";
 import MixerSvg from "../components/svg/MixerSvg";
@@ -21,7 +22,7 @@ import {plcData} from "../types";
 export function MainPage(){
     // const pageNumber = useAppSelector(state => state.hmi.page)
     // const dispatch = useAppDispatch()
-    const{data} = useGetCogenDataQuery(1, {pollingInterval: 1000})
+    const{data, isError} = useGetCogenDataQuery(1, {pollingInterval: 1000})
     const [setCogenValue] = useSetCogenValueMutation()
     const [setCogenBool] = useSetCogenBoolMutation()
     const [gazControlPopUp, setGazControlPopUp] = useState(false)
@@ -37,17 +38,19 @@ export function MainPage(){
     const [coolerBtnFlag, setCoolerBtnFlag] = useState(false)
 
     useEffect(()=>{
-        if (!drumBtnFlag){
-            setDrumBtn(data['drum'])
-        }
-        if (!fireBtnFlag){
-            setFireBtn(data['fire'])
-        }
-        if (!mixerBtnFlag){
-            setMixerBtn(data['mixer'])
-        }
-        if (!coolerBtnFlag){
-            setCoolerBtn(data['cooler'])
+        if (data !== undefined) {
+            if (!drumBtnFlag) {
+                setDrumBtn(data['drum'])
+            }
+            if (!fireBtnFlag) {
+                setFireBtn(data['fire'])
+            }
+            if (!mixerBtnFlag) {
+                setMixerBtn(data['mixer'])
+            }
+            if (!coolerBtnFlag) {
+                setCoolerBtn(data['cooler'])
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[data])
@@ -256,6 +259,20 @@ export function MainPage(){
                     <Chart/>
                 </div>
             </div>
+            {isError && <div className='absolute top-1/2 left-1/3 h-1/6 w-1/3 rounded-2xl bg-neutral-300 shadow-2xl z-40
+                            items-center justify-center'>
+                <div className='flex flex-auto h-full'>
+                    <div className='flex w-1/5 items-center justify-center text-red-700 text-[10vh] ml-[4vw]'><MdError/></div>
+                    <div className='flex flex-auto items-center justify-start text-neutral-700 text-[5vh]'>Backend offline!</div>
+                </div>
+            </div>}
+            {!getBool(data, 'connected') && <div className='absolute top-1/3 left-1/3 h-1/6 w-1/3 rounded-2xl bg-neutral-300 shadow-2xl z-40
+                            items-center justify-center'>
+                <div className='flex flex-auto h-full'>
+                    <div className='flex w-1/5 items-center justify-center text-red-700 text-[10vh] ml-[4vw]'><MdError/></div>
+                    <div className='flex flex-auto items-center justify-start text-neutral-700 text-[5vh] ml-[2vw]'>PLC offline!</div>
+                </div>
+            </div>}
 
         </div>
     )
