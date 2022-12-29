@@ -10,16 +10,16 @@ export const cogenApi = createApi({
         }),
         setCogenValue: builder.mutation({
             query: (body) =>({
-                url: `data/${body.tag}`,
+                url: `data/number`,
                 method: 'POST',
-                body: {value: body.value},
+                body,
             })
         }),
         setCogenBool: builder.mutation({
             query: (body) => ({
                 url: 'data/bool',
                 method: 'POST',
-                body:body
+                body
             })
         })
     })
