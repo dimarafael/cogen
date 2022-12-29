@@ -12,7 +12,7 @@ import FanSvg from "../components/svg/FanSvg";
 import {Chart} from "../components/Chart";
 import CogenLogoSvg from "../components/svg/CogenLogoSvg";
 import {PopUpControl} from "../components/PopUpControl";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 // import {setPage} from "../features/hmi/hmiSlice";
 import {useGetCogenDataQuery, useSetCogenValueMutation, useSetCogenBoolMutation} from "../services/cogenApi";
 import {plcData} from "../types";
@@ -27,6 +27,36 @@ export function MainPage(){
     const [gazControlPopUp, setGazControlPopUp] = useState(false)
     const [drumControlPopUp, setDrumControlPopUp] = useState(false)
     const [fanControlPopUp, setFanControlPopUp] = useState(false)
+    const [drumBtn, setDrumBtn] = useState(false)
+    const [drumBtnFlag, setDrumBtnFlag] = useState(false)
+    const [fireBtn, setFireBtn] = useState(false)
+    const [fireBtnFlag, setFireBtnFlag] = useState(false)
+    const [mixerBtn, setMixerBtn] = useState(false)
+    const [mixerBtnFlag, setMixerBtnFlag] = useState(false)
+    const [coolerBtn, setCoolerBtn] = useState(false)
+    const [coolerBtnFlag, setCoolerBtnFlag] = useState(false)
+
+    useEffect(()=>{
+        if (!drumBtnFlag){
+            setDrumBtn(data['drum'])
+        }
+        if (!fireBtnFlag){
+            setFireBtn(data['fire'])
+        }
+        if (!mixerBtnFlag){
+            setMixerBtn(data['mixer'])
+        }
+        if (!coolerBtnFlag){
+            setCoolerBtn(data['cooler'])
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[data])
+
+    const delay = (ms:number) => {
+        return new Promise<void>(resolve => {
+            window.setTimeout(() => resolve(), ms)
+        })
+    }
 
     const getRealStr = function (data: plcData, tag: keyof plcData): string {
         if (data !== undefined) {
@@ -80,32 +110,63 @@ export function MainPage(){
                     <div className='text-[6.5vh] mb-[-0.5vh]'><CiCoffeeBean/></div>
                     <div className='text-[2vh]'>CRACK</div>
                 </div>
-                {/*<div className='flex flex-col items-center text-neutral-300 h-[10vh] justify-center box-border border-y border-neutral-400 active:bg-neutral-600'*/}
                 <div className={`flex flex-col items-center h-[10vh] justify-center box-border border-y
-                                border-neutral-400 active:bg-neutral-600 
-                                ${getBool(data,'drum') ? 'text-green-500': 'text-neutral-300'}`}
-                     onClick={() => setCogenBool({
-                        tag: 'drum',
-                        value: !getBool(data,'drum')
-                    })}
+                                border-neutral-400 active:bg-neutral-600 ${drumBtn ? 'text-green-500': 'text-neutral-300'}`}
+                     onClick={() => {
+                         setCogenBool({
+                            tag: 'drum',
+                            value: !getBool(data,'drum')
+                        })
+                         setDrumBtn(!getBool(data,'drum'))
+                         setDrumBtnFlag(true)
+                         delay(1500).then(()=>setDrumBtnFlag(false))
+                     }}
                 >
                     <div className='text-[5.5vh] mt-[1vh]'><DrumSvg/></div>
                     <div className='text-[2vh]'>DRUM</div>
                 </div>
-                <div className='flex flex-col items-center text-neutral-300 h-[10vh] justify-center box-border border-y border-neutral-400 active:bg-neutral-600'
-                     onClick={() => setCogenBool({
-                         tag: 'fire',
-                         value: !getBool(data,'fire')
-                     })}
+                <div className={`flex flex-col items-center h-[10vh] justify-center box-border border-y
+                                border-neutral-400 active:bg-neutral-600 ${fireBtn ? 'text-green-500': 'text-neutral-300'}`}
+                     onClick={() => {
+                         setCogenBool({
+                             tag: 'fire',
+                             value: !getBool(data,'fire')
+                         })
+                         setFireBtn(!getBool(data,'fire'))
+                         setFireBtnFlag(true)
+                         delay(1500).then(()=>setFireBtnFlag(false))
+                     }}
                 >
                     <div className='text-[5.5vh] mt-[1vh]'><FireSvg/></div>
                     <div className='text-[2vh]'>FIRE</div>
                 </div>
-                <div className='flex flex-col items-center text-neutral-300 text-[6.5vh] h-[10vh] justify-center box-border border-y border-neutral-400 active:bg-neutral-600'>
+                <div className={`flex flex-col items-center text-[6.5vh] h-[10vh] justify-center box-border border-y
+                                border-neutral-400 active:bg-neutral-600 ${mixerBtn ? 'text-green-500': 'text-neutral-300'}`}
+                     onClick={() => {
+                         setCogenBool({
+                             tag: 'mixer',
+                             value: !getBool(data,'mixer')
+                         })
+                         setMixerBtn(!getBool(data,'mixer'))
+                         setMixerBtnFlag(true)
+                         delay(1500).then(()=>setMixerBtnFlag(false))
+                     }}
+                >
                     <div className='text-[5.5vh] mt-[1vh]'><MixerSvg/></div>
                     <div className='text-[2vh]'>MIXER</div>
                 </div>
-                <div className='flex flex-col items-center text-neutral-300 text-[6.5vh] h-[10vh] mb-[1vh] justify-center box-border border-y border-neutral-400 active:bg-neutral-600'>
+                <div className={`flex flex-col items-center text-[6.5vh] h-[10vh] mb-[1vh] justify-center box-border border-y
+                                border-neutral-400 active:bg-neutral-600 ${coolerBtn ? 'text-green-500': 'text-neutral-300'}`}
+                     onClick={() => {
+                         setCogenBool({
+                             tag: 'cooler',
+                             value: !getBool(data,'cooler')
+                         })
+                         setCoolerBtn(!getBool(data,'cooler'))
+                         setCoolerBtnFlag(true)
+                         delay(1500).then(()=>setCoolerBtnFlag(false))
+                     }}
+                >
                     <div className='text-[5.5vh] mt-[1vh]'><SnowflakeSvg/></div>
                     <div className='text-[2vh]'>COOLER</div>
                 </div>
