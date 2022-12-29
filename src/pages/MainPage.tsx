@@ -148,12 +148,13 @@ export function MainPage(){
 
                     </div>
                     {gazControlPopUp && <PopUpControl onClose={() => setGazControlPopUp(false)}
-                                                   value={parseInt(getIntStr(data, 'gaz_preset'))}
-                                                   onChange={setCogenValue}
-                                                   tag='gaz_preset'
-                                                   posLeft='30vw'
-                                                   max={10}
-                                                   min={1}
+                                                      value={parseInt(getIntStr(data, 'gaz_preset'))}
+                                                      onChange={setCogenValue}
+                                                      tag='gaz_preset'
+                                                      posLeft='30vw'
+                                                      max={10}
+                                                      min={1}
+                                                      bottomBar={false}
                     />}
 
                     <div className='flex text-neutral-300 px-[0.1vw] w-1/6'

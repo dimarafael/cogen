@@ -1,5 +1,5 @@
 import {FaArrowUp, FaArrowDown} from 'react-icons/fa'
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 interface OnChangeProps{
     tag: string
@@ -15,9 +15,10 @@ interface PopUpFireProps{
     min?: number
     max?: number
     units?: string
+    bottomBar?: boolean
 }
 
-export function PopUpControl({onClose, onChange, value, tag, posLeft, min=0, max=100, units=''}: PopUpFireProps){
+export function PopUpControl({onClose, onChange, value, tag, posLeft, min=0, max=100, units='', bottomBar=true}: PopUpFireProps){
     const [currentValue, setCurrentValue] = useState(value)
     const sendTimeoutId = useRef<number>(0)
     const closeTimeoutId = useRef<number>(0)
@@ -48,7 +49,7 @@ export function PopUpControl({onClose, onChange, value, tag, posLeft, min=0, max
             clearTimeout(closeTimeoutId.current)
         }
         delayClose(5000).then(() => onClose())
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[currentValue])
 
     const addToCurrentValue = (val:number)=>{
@@ -66,8 +67,8 @@ export function PopUpControl({onClose, onChange, value, tag, posLeft, min=0, max
                  clearTimeout(closeTimeoutId.current)
              }}
         ></div>
-        <div className='absolute z-10 top-[16vh] w-4/12 h-1/2 text-neutral-300
-                rounded-2xl bg-neutral-300 shadow-2xl'
+        <div className={`absolute z-10 top-[16vh] w-4/12 text-neutral-300
+                rounded-2xl bg-neutral-300 shadow-2xl ${bottomBar ? 'h-1/2':'h-1/3'}`}
             style={{
                 left: posLeft
             }}
@@ -90,7 +91,7 @@ export function PopUpControl({onClose, onChange, value, tag, posLeft, min=0, max
                         ><FaArrowDown/></button>
                     </div>
                 </div>
-                <div className='flex h-1/3 items-center justify-evenly'>
+                {bottomBar && <div className='flex h-1/3 items-center justify-evenly'>
                     <button className='flex items-center justify-center h-1/2 w-1/5 text-[4vh] rounded bg-neutral-900 active:bg-neutral-600'
                         onClick={() => {
                             addToCurrentValue(-10)
@@ -112,7 +113,7 @@ export function PopUpControl({onClose, onChange, value, tag, posLeft, min=0, max
                             addToCurrentValue(10)
                         }}
                     >+10</button>
-                </div>
+                </div>}
             </div>
         </div>
         </>
