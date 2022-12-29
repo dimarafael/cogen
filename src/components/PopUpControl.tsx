@@ -63,8 +63,13 @@ export function PopUpControl({onClose, onChange, value, tag, posLeft, min=0, max
         <>
         <div className='absolute top-0 left-0 z-10 h-full w-full bg-gray-500 opacity-50'
              onClick={() => {
-                 onClose()
+                 clearTimeout(sendTimeoutId.current)
                  clearTimeout(closeTimeoutId.current)
+                 onChange({
+                     tag,
+                     value: currentValue
+                 })
+                 onClose()
              }}
         ></div>
         <div className={`absolute z-10 top-[16vh] w-4/12 text-neutral-300
