@@ -22,6 +22,7 @@ import {plcData} from "../types";
 export function MainPage(){
     // const pageNumber = useAppSelector(state => state.hmi.page)
     // const dispatch = useAppDispatch()
+
     const{data, isError} = useGetCogenDataQuery(1, {pollingInterval: 1000})
     const [setCogenValue] = useSetCogenValueMutation()
     const [setCogenBool] = useSetCogenBoolMutation()
